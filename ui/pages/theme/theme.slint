@@ -1,0 +1,67 @@
+import { ThemeOption } from "theme-option.slint";
+import { ThemeType, ThemeStore } from "../../app/global.slint";
+
+export component Theme inherits Rectangle {
+    // background: black;
+
+    VerticalLayout {
+        alignment: start;
+        spacing: 20px;
+
+        free-theme := Rectangle {
+
+            VerticalLayout {
+                alignment: start;
+                spacing: 10px;
+
+                theme-name := Text {
+                    text: "免费主题";
+                }
+
+                theme-options := HorizontalLayout {
+                    spacing: 20px;
+
+                    ThemeOption {
+                        background: black;
+                        theme: ThemeType.black;
+
+                        clicked => {
+                            ThemeStore.current-theme = self.theme;
+                        }
+                        
+                    }
+                    ThemeOption {
+                        background: orange;
+                        theme: ThemeType.orange;
+
+                        clicked => {
+                            ThemeStore.current-theme = self.theme;
+                        }
+                    }
+                    ThemeOption {
+                        background: pink;
+                        theme: ThemeType.pink;
+
+                        clicked => {
+                            ThemeStore.current-theme = self.theme;
+                            ThemeStore.sider-background = @linear-gradient(180deg, #f0c6c6 0%, #f5d6d6 50%, #eee 100%);
+                            ThemeStore.mainbox-background = @linear-gradient(180deg, #fae8e8 0%, #f7eeee 50%, #f3f2f2 100%);
+                            ThemeStore.nav-button-background = #eb7272;
+                        }
+                    }
+                    ThemeOption {
+                        background: purple;
+                        theme: ThemeType.purple;
+
+                        clicked => {
+                            ThemeStore.current-theme = self.theme;
+                        }
+                    }
+                }
+
+            }
+        }
+
+
+    }
+}

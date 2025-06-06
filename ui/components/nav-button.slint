@@ -1,0 +1,53 @@
+import { QTouchArea } from "qtoucharea.slint";
+import { PageType, ThemeStore } from "../app/global.slint";
+export component NavButton inherits Rectangle {
+    in property <PageType> page-type;
+    in property <string> text;
+    in property <image> icon;
+    in property <bool> is-active;
+    callback clicked();
+
+    width: 170px;
+    height: 36px;
+    border-radius: 5px;
+
+    HorizontalLayout {
+        padding-left: 10px;
+        padding-right: 10px;
+        spacing: 5px;
+
+        VerticalLayout {
+            alignment: center;
+
+            icon := Image {
+                height: root.height / 2;
+                width: self.height;
+                source: root.icon;
+            }    
+        }
+        
+
+        nav-name := Text {
+            text: root.text;
+            vertical-alignment: center;
+            color: #9b9797;
+            font-size: 14px;
+        }
+    }
+
+    states [
+        active when is-active: {
+            root.background: ThemeStore.nav-button-background;
+            icon.colorize: #000;
+            nav-name.color: #333;
+        }
+    ]
+
+    QTouchArea {
+        mouse-cursor: pointer;
+
+        clicked => {
+            root.clicked();
+        }
+    }
+}

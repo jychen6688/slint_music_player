@@ -1,0 +1,138 @@
+import { QImage } from "../components/qimage.slint";
+import { QTouchArea } from "../components/qtoucharea.slint";
+import { Icon } from "../components/icon.slint";
+import { QSlider } from "../components/qslider.slint";
+import { PlaySongsStore, PlayListStore, VinylStore } from "global.slint";
+export component Player inherits Rectangle {
+    background: #FAFAFA;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    VerticalLayout {
+
+        line := Rectangle {
+            height: 1px;
+            background: #eee;
+        }
+
+        HorizontalLayout {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            padding-left: 20px;
+            padding-right: 20px;
+
+            Rectangle {
+
+                HorizontalLayout {
+                    alignment: space-between;
+
+                    album := Rectangle {
+                        HorizontalLayout {
+                            alignment: start;
+                            spacing: 10px;
+
+                            QImage {
+                                width: 50px;
+                                height: 50px;
+                                border-radius: 5px;
+                                source: @image-url("../../assets/katong8.png");
+                            }
+
+                            VerticalLayout {
+                                alignment: space-between;
+                                Text {
+                                    text: "晴天";
+                                    font-size: 20px;
+                                }
+                                Text {
+                                    text: "周杰伦";
+                                    color: gray;
+                                }
+                            }
+                        }
+
+                        QTouchArea {
+                            mouse-cursor: pointer;
+
+                            clicked => {
+                                VinylStore.toggle();
+                            }
+                        }
+                    }
+
+                    player-box := Rectangle {
+                        VerticalLayout {
+                            alignment: space-between;
+
+                            player-btn := Rectangle {
+                                height: 35px;
+
+                                HorizontalLayout {
+                                    alignment: space-between;
+                                    spacing: 30px;
+
+                                    Icon {
+                                        source: @image-url("../../assets/pre.svg");
+                                        clicked => {
+                                            PlaySongsStore.pre_song();
+                                        }
+                                    }
+
+                                    Image {
+                                        height: player-btn.height;
+                                        width: self.height;
+                                        source: PlaySongsStore.has-played ? @image-url("../../assets/pause-big.svg") : @image-url("../../assets/play-big.svg");
+                                        colorize: red;
+
+                                        QTouchArea {
+                                            mouse-cursor: pointer;
+
+                                            clicked => {
+                                                PlaySongsStore.set_has_played(!PlaySongsStore.has-played);
+                                            }
+                                        }
+                                    }
+
+                                    Icon {
+                                        source: @image-url("../../assets/next.svg");
+                                        clicked => {
+                                            PlaySongsStore.next_song();
+                                        }
+                                    }
+                                }
+                            }
+
+                            slider := Rectangle {
+                                QSlider {
+                                    width: 300px;
+                                    height: 6px;
+                                }
+                            }
+                        }
+                    }
+
+                    playlist := Rectangle {
+                        HorizontalLayout {
+                            spacing: 20px;
+
+                            voice := Icon {
+                                width: 20px;
+                                source: @image-url("../../assets/voice.svg");
+                            }
+
+                        
+                            menu := Icon {
+                                width: 20px;
+                                source: @image-url("../../assets/menu.svg");
+
+                                clicked => {
+                                    PlayListStore.is-show = !PlayListStore.is-show;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+import { ToolBar } from "toolbar.slint";
+import { PageBox } from "page-box.slint";
+import { ThemeStore } from "global.slint";
+export component MainBox inherits Rectangle {
+    border-top-right-radius: 10px;
+    background: ThemeStore.mainbox-background;
+
+    VerticalLayout {
+        padding-top: 25px;
+        
+        toolbar := ToolBar {
+            height: 30px;
+        }
+
+        page-box := PageBox {
+            vertical-stretch: 1;
+        }
+    }
+}

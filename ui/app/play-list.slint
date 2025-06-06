@@ -1,0 +1,97 @@
+import { Icon } from "../components/icon.slint";
+import { ScrollView } from "std-widgets.slint";
+import { PlaySongsStore } from "global.slint";
+import { QTouchArea } from "../components/qtoucharea.slint";
+export component PlayList inherits Rectangle {
+
+    width: 300px;
+    height: 400px;
+    border-radius: 10px;
+    background: #fff;
+    drop-shadow-blur: 20px;
+    drop-shadow-color: gray;
+    drop-shadow-offset-x: -10px;
+    drop-shadow-offset-y: 10px;
+
+    QTouchArea {
+
+    }
+
+    VerticalLayout {
+        padding: 20px;
+        spacing: 20px;
+
+        HorizontalLayout {
+            height: 20px;
+            alignment: space-between;
+
+            Text {
+                text: "全部歌曲";
+                vertical-alignment: center;
+            }
+
+            del-all := Icon {
+                width: 16px;
+                source: @image-url("../../assets/delete.svg");
+
+                clicked => {
+                    PlaySongsStore.clear_songs();
+                }
+            }
+        }
+
+        ScrollView {
+            horizontal-stretch: 1;
+            vertical-scrollbar-policy: ScrollBarPolicy.always-off;
+
+            VerticalLayout {
+                spacing: 20px;
+                alignment: start;
+
+                for item[index] in PlaySongsStore.list: song := Rectangle {
+                    
+                    HorizontalLayout {
+                        height: 20px;
+                        alignment: space-between;
+
+                        song-name := HorizontalLayout {
+                            spacing: 10px;
+
+                            Icon {
+                                width: 16px;
+                                source: @image-url("../../assets/like.svg");
+                            }
+
+                            Text {
+                                text: item.singer + " - " + item.song;
+                                color: PlaySongsStore.current-index == index ? red : gray;
+                                vertical-alignment: center;
+
+                                QTouchArea {
+                                    mouse-cursor: pointer;
+
+                                    clicked => {
+                                        PlaySongsStore.current-index = index;
+                                        PlaySongsStore.song-id = item.id;
+                                        PlaySongsStore.set_has_played(true);
+                                        PlaySongsStore.push(item);
+                                        PlaySongsStore.set_song_process(true);
+                                    }
+                                }
+                            }
+                        }
+
+                        del-song := Icon {
+                            width: 16px;
+                            source: @image-url("../../assets/delete.svg");
+
+                            clicked => {
+                                PlaySongsStore.delete_song(index);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

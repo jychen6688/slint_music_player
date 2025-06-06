@@ -1,0 +1,31 @@
+import { QTouchArea } from "qtoucharea.slint";
+export component TabTitle inherits Rectangle {
+    in property <bool> is-active-tab;
+    in property <string> text;
+    in property <int> index;
+    callback clicked();
+
+    VerticalLayout {
+        alignment: space-between;
+
+        text := Text {
+            text: root.text;
+            font-size: 14px;
+        }
+
+        if root.is-active-tab: Rectangle {
+            x: (text.width - self.width) / 2;
+            width: 20px;
+            height: 3px;
+            background: red;
+        }
+    }
+
+    QTouchArea {
+        mouse-cursor: pointer;
+
+        clicked => {
+            root.clicked();
+        }
+    }
+}

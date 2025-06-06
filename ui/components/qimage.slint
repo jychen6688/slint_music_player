@@ -1,0 +1,39 @@
+import { QTouchArea } from "qtoucharea.slint";
+export component QImage inherits Rectangle {
+    in property <angle> rotation;
+    in property <image> source;
+    callback clicked();
+    width: 14px;
+    clip: true;
+
+    HorizontalLayout {
+        alignment: center;
+
+        VerticalLayout {
+            alignment: center;
+
+            Rectangle {
+                width: root.width;
+                height: root.height;
+                clip: true;
+                border-radius: root.border-radius;
+
+                Image {
+                    width: root.width;
+                    height: self.width;
+                    source: root.source;
+                    rotation-angle: root.rotation;
+                }
+            }
+        }
+    }
+
+    QTouchArea {
+        mouse-cursor: pointer;
+
+        clicked => {
+            root.clicked();
+        }
+    }
+
+}

@@ -1,0 +1,33 @@
+import { ThemeType, ThemeStore } from "../../app/global.slint";
+import { QTouchArea } from "../../components/qtoucharea.slint";
+import { Icon } from "../../components/icon.slint";
+export component ThemeOption inherits Rectangle {
+    in property <ThemeType> theme;
+    callback clicked();
+
+    height: self.width / 5 * 3;
+    border-radius: 10px;
+
+    QTouchArea {
+        mouse-cursor: pointer;
+
+        clicked => {
+            root.clicked();
+        }
+    }
+
+    icon := Icon {
+        x: root.width - self.width - 10px;
+        y: root.height - self.height - 10px;
+        width: 20px;
+        height: self.width;
+        source: @image-url("../../../assets/right.svg");
+        colorize: gray;
+
+        states [
+            active when ThemeStore.current-theme == root.theme: {
+                icon.colorize: Colors.red;
+            }
+        ]
+    }
+}

@@ -1,0 +1,66 @@
+import { QTouchArea } from "qtoucharea.slint";
+export component QInput inherits Rectangle {
+    property <bool> is-show: true;
+    in property <string> placeholder: "请输入内容";
+    callback edited();
+    callback accepted();
+    callback leaved();
+
+    width: 200px;
+    height: 30px;
+    background: #fff;
+    border-radius: 5px;
+    border-color: gray;
+    border-width: 1px;
+
+    HorizontalLayout {
+        padding-left: 10px;
+
+        text-input := TextInput {
+            single-line: true;
+            vertical-alignment: center;
+            font-size: 12px;
+            color: gray;
+
+            changed has-focus => {
+                if self.has-focus {
+                    root.border-color = Colors.red;
+                } else {
+                    root.border-color = Colors.gray;
+                    if self.text == "" {
+                        root.is-show = true;
+                    }
+                    root.leaved();
+                }
+            }
+
+            edited => {
+                root.edited();
+            }
+
+            accepted => {
+                root.accepted();
+            }
+
+            key-pressed(event) => {
+                root.is-show = false;
+
+                reject
+            }
+        }
+        
+    }
+
+    if root.is-show: t:=Text {
+        x: 10px;
+        text: root.placeholder;
+        font-size: 12px;
+        color: gray;
+    }
+
+    QTouchArea {
+        clicked => {
+            text-input.focus();
+        }
+    }
+}

@@ -1,0 +1,44 @@
+import { TabTitle } from "../../components/tab-title.slint";
+export component SingerTabs inherits Rectangle {
+    // background: black;
+    in-out property <int> current-index;
+    height: 30px;
+
+    HorizontalLayout {
+        alignment: start;
+        spacing: 30px;
+
+        TabTitle {
+            index: 0;
+            text: "精选";
+            is-active-tab: root.current-index == self.index;
+            clicked => {
+                root.current-index = self.index;
+            }
+        }
+        TabTitle {
+            index: 1;
+            text: "歌曲";
+            is-active-tab: root.current-index == self.index;
+            clicked => {
+                root.current-index = self.index;
+            }
+        }
+        TabTitle {
+            index: 2;
+            text: "专辑";
+            is-active-tab: root.current-index == self.index;
+            clicked => {
+                root.current-index = self.index;
+            }
+        }
+        TabTitle {
+            index: 3;
+            text: "单曲";
+            is-active-tab: root.current-index == self.index;
+            clicked => {
+                root.current-index = self.index;
+            }
+        }
+    }
+}

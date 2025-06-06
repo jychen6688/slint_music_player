@@ -1,0 +1,67 @@
+import { Singer } from "../pages/singer/singer.slint";
+import { Download } from "../pages/download/download.slint";
+import { Recently } from "../pages/recently/recently.slint";
+import { Like } from "../pages/like/like.slint";
+import { Picked } from "../pages/picked/picked.slint";
+import { State } from "../pages/states/state.slint";
+import { MusicHouse } from "../pages/music-house/music-house.slint";
+import { Home } from "../pages/home/home.slint";
+import { PageType, HistoryStore, PageBoxStore } from "global.slint";
+import { Theme } from "../pages/theme/theme.slint";
+export component PageBox inherits Rectangle {
+    // background: chocolate;
+
+    VerticalLayout {
+        padding: 30px;
+
+        // Singer {}
+
+
+        box := Rectangle {
+            clip: true;
+
+            HorizontalLayout {
+                x: -PageBoxStore.position-offset * box.width;
+
+                alignment: start;
+
+                Home {
+                    width: 100%;
+                }
+
+                Picked {
+                    width: 100%;
+                }
+
+                State {
+                    width: 100%;
+                }
+
+                MusicHouse {
+                    width: 100%;
+                }
+
+                Like {
+                    width: 100%;
+                }
+
+                Recently {
+                    width: 100%;
+                }
+
+                Download {
+                    width: 100%;
+                }
+
+                Singer {
+                    width: 100%;
+                }
+
+                Theme {
+                    width: 100%;
+                }
+            }
+        }
+
+    }
+}

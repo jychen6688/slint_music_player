@@ -1,0 +1,117 @@
+import { NavButton } from "../components/nav-button.slint";
+import {  PageType, ThemeStore, HistoryStore} from "global.slint";
+export component SideBar inherits Rectangle {
+    width: 210px;
+    background: ThemeStore.sider-background;
+    border-top-left-radius: 10px;
+
+    VerticalLayout {
+        alignment: start;
+        padding-top: 25px;
+        padding-left: 20px;
+        padding-right: 20px;
+        spacing: 20px;
+
+        logo := Rectangle {
+            height: 30px;
+
+            HorizontalLayout {
+                alignment: start;
+                spacing: 5px;
+
+                logo-pic := Rectangle {
+                    width: logo.height;
+                    border-radius: 5px;
+                    clip: true;
+
+                    Image {
+                        height: parent.height;
+                        width: self.height;
+                        source: @image-url("../../assets/logo.png");
+                    }
+                }
+
+                Text {
+                    text: "猩猩音乐(卡通版)";
+                    font-size: 16px;
+                    vertical-alignment: center;
+                }
+            }
+        }
+
+        app-nav := VerticalLayout {
+            alignment: start;
+            spacing: 3px;
+
+            NavButton {
+                page-type: PageType.home;
+                text: "推荐";
+                icon: @image-url("../../assets/home.svg");
+                is-active: HistoryStore.active-tab == self.page-type;
+                clicked => {
+                    HistoryStore.go_to(self.page-type);
+                }
+            }
+            NavButton {
+                text: "精选";
+                page-type: PageType.picked;
+                icon: @image-url("../../assets/star.svg");
+                is-active: HistoryStore.active-tab == self.page-type;
+                clicked => {
+                    HistoryStore.go_to(self.page-type);
+                }
+            }
+            NavButton {
+                text: "动态";
+                page-type: PageType.state;
+                icon: @image-url("../../assets/chat.svg");
+                is-active: HistoryStore.active-tab == self.page-type;
+                clicked => {
+                    HistoryStore.go_to(self.page-type);
+                }
+            }
+            NavButton {
+                text: "乐馆";
+                page-type: PageType.music-house;
+                icon: @image-url("../../assets/music.svg");
+                is-active: HistoryStore.active-tab == self.page-type;
+                clicked => {
+                    HistoryStore.go_to(self.page-type);
+                }
+            }
+        }
+
+        line := Rectangle {
+            height: 1px;
+            background: #E4E8EC;
+        }
+
+        my-nav := VerticalLayout {
+            alignment: start;
+            spacing: 3px;
+
+            for item in [{
+                page-type: PageType.like,
+                text: "我的点赞",
+                icon: @image-url("../../assets/like.svg"),
+            },{
+                page-type: PageType.recently,
+                text: "最近播放",
+                icon: @image-url("../../assets/time.svg")
+            },{
+                page-type: PageType.download,
+                text: "本地下载",
+                icon: @image-url("../../assets/download.svg")
+            },]: NavButton {
+                page-type: item.page-type;
+                text: item.text;
+                icon: item.icon;
+                is-active: HistoryStore.active-tab == item.page-type;
+
+                clicked => {
+                    HistoryStore.go_to(self.page-type);
+                }
+            }
+        }
+    }
+}

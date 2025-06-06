@@ -1,0 +1,84 @@
+import { TabTitle } from "../../components/tab-title.slint";
+import { Picked } from "picked.slint";
+import { Singers } from "singers.slint";
+import { Rank } from "rank.slint";
+import { Moments } from "moments.slint";
+
+export component Home inherits Rectangle {
+    // background: black;
+    property <length> tab-box-x;
+    clip: true;
+
+    VerticalLayout {
+
+        tabs:= Rectangle {
+            property <int> active-tab;
+            height: 30px;
+
+            HorizontalLayout {
+                alignment: start;
+                spacing: 30px;
+
+                TabTitle {
+                    index: 0;
+                    text: "精选";
+                    is-active-tab: tabs.active-tab == self.index;
+
+                    clicked => {
+                        tabs.active-tab = self.index;
+                        root.tab-box-x = - self.index * root.width;
+                    }
+                }
+
+                TabTitle {
+                    index: 1;
+                    text: "排行榜";
+                    is-active-tab: tabs.active-tab == self.index;
+
+                    clicked => {
+                        tabs.active-tab = self.index;
+                        root.tab-box-x = - self.index * root.width;
+                    }
+                }
+
+                TabTitle {
+                    index: 2;
+                    text: "歌手";
+                    is-active-tab: tabs.active-tab == self.index;
+
+                    clicked => {
+                        tabs.active-tab = self.index;
+                        root.tab-box-x = - self.index * root.width;
+                    }
+                }
+
+                TabTitle {
+                    index: 3;
+                    text: "动态";
+                    is-active-tab: tabs.active-tab == self.index;
+
+                    clicked => {
+                        tabs.active-tab = self.index;
+                        root.tab-box-x = - self.index * root.width;
+                    }
+                }
+            }
+        }
+
+        tab-contanier := HorizontalLayout {
+            x: root.tab-box-x;
+            Picked {
+                width: 100%;
+            }
+            Rank {
+                width: 100%;
+            }
+            Singers {
+                width: 100%;
+            }
+            Moments {
+                width: 100%;
+            }
+        }
+    }
+}

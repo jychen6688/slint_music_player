@@ -1,0 +1,361 @@
+export enum PageType {
+    home,
+    picked,
+    state,
+    music-house,
+    like,
+    recently,
+    download,
+    singer,
+    theme
+}
+
+export struct Page {
+    page-type: PageType,
+    data: string
+}
+
+export global HistoryStore {
+    in-out property <[Page]> pages: [];
+    in-out property <PageType> active-tab: home;
+    in-out property <int> size: self.pages.length;
+
+    callback push(Page);
+    callback pop();
+
+    public function go_back() {
+        self.pop();
+        self.active-tab = self.pages.length <= 0 ? PageType.home : self.pages[self.size - 1].page-type;
+        PageBoxStore.set_position_offset(self.active-tab);
+    }
+
+    public function go_to_with_data(page-type: PageType, data: string) {
+        self.active-tab = page-type;
+        self.push({
+            page-type: page-type,
+            data: data
+        });
+        PageBoxStore.set_position_offset(page-type);
+    }
+
+    public function go_to(page-type: PageType) {
+        self.go_to_with_data(page-type, "");
+    }
+    
+}
+
+export global PageBoxStore {
+    in-out property <int> position-offset;
+
+    public function set_position_offset(page-type: PageType) {
+        
+        if HistoryStore.active-tab == PageType.home {
+            self.position-offset = 0;
+        } else if HistoryStore.active-tab == PageType.picked {
+            self.position-offset = 1;
+        } else if HistoryStore.active-tab == PageType.state {
+            self.position-offset = 2;
+        } else if HistoryStore.active-tab == PageType.music-house {
+            self.position-offset = 3;
+        } else if HistoryStore.active-tab == PageType.like {
+            self.position-offset = 4;
+        } else if HistoryStore.active-tab == PageType.recently {
+            self.position-offset = 5;
+        } else if HistoryStore.active-tab == PageType.download {
+            self.position-offset = 6;
+        } else if HistoryStore.active-tab == PageType.singer {
+            self.position-offset = 7;
+        } else if HistoryStore.active-tab == PageType.theme {
+            self.position-offset = 8;
+        }
+
+    }
+}
+
+
+export enum ThemeType {
+    default,
+    black,
+    orange,
+    purple,
+    pink,
+}
+
+export global ThemeStore {
+    in-out property <ThemeType> current-theme;
+    in-out property <brush> sider-background: #eeeff0;
+    in-out property <brush> mainbox-background: #fff;
+    in-out property <brush> nav-button-background: #DDDDDD;
+}
+
+export struct Song {
+    id: int,
+    singer: string,
+    song: string,
+    album: string,
+    path: string,
+    pic-path: string
+}
+
+export global SingerSongsStore {
+    in-out property <[Song]> list: [
+        {
+            id: 0,
+            singer: "周杰伦",
+            song: "晴天",
+            album: "",
+            path: "assets/music.mp3",
+            pic-path: ""
+        },
+        {
+            id: 1,
+            singer: "周杰伦",
+            song: "霍元甲",
+            album: "",
+            path: "assets/music2.mp3",
+            pic-path: ""
+        },
+        {
+            id: 2,
+            singer: "周杰伦",
+            song: "双截棍",
+            album: "",
+            path: "assets/music.mp3",
+            pic-path: ""
+        },
+        {
+            id: 3,
+            singer: "周杰伦",
+            song: "千里之外",
+            album: "",
+            path: "assets/music2.mp3",
+            pic-path: ""
+        },
+        {
+            id: 4,
+            singer: "周杰伦",
+            song: "星晴",
+            album: "",
+            path: "assets/music.mp3",
+            pic-path: ""
+        },
+        {
+            id: 5,
+            singer: "周杰伦",
+            song: "最长的电影",
+            album: "",
+            path: "",
+            pic-path: ""
+        },
+        {
+            id: 6,
+            singer: "周杰伦",
+            song: "蒲公英的约定",
+            album: "",
+            path: "",
+            pic-path: ""
+        },
+        {
+            id: 7,
+            singer: "周杰伦",
+            song: "忍者",
+            album: "",
+            path: "",
+            pic-path: ""
+        },
+        {
+            id: 8,
+            singer: "周杰伦",
+            song: "彩虹",
+            album: "",
+            path: "",
+            pic-path: ""
+        },
+        {
+            id: 9,
+            singer: "周杰伦",
+            song: "我不配",
+            album: "",
+            path: "",
+            pic-path: ""
+        },
+        {
+            id: 10,
+            singer: "周杰伦",
+            song: "黄金甲",
+            album: "",
+            path: "",
+            pic-path: ""
+        },
+        {
+            id: 11,
+            singer: "周杰伦",
+            song: "牛仔很忙",
+            album: "",
+            path: "",
+            pic-path: ""
+        },
+        {
+            id: 12,
+            singer: "周杰伦",
+            song: "夜曲",
+            album: "",
+            path: "",
+            pic-path: ""
+        },
+        {
+            id: 13,
+            singer: "周杰伦",
+            song: "龙拳",
+            album: "",
+            path: "",
+            pic-path: ""
+        },
+        {
+            id: 14,
+            singer: "周杰伦",
+            song: "龙战骑士",
+            album: "",
+            path: "",
+            pic-path: ""
+        },
+        {
+            id: 15,
+            singer: "周杰伦",
+            song: "时光机",
+            album: "",
+            path: "",
+            pic-path: ""
+        },
+        {
+            id: 16,
+            singer: "周杰伦",
+            song: "稻香",
+            album: "",
+            path: "",
+            pic-path: ""
+        },
+    ];
+}
+
+
+export global PlaySongsStore {
+    in-out property <[Song]> list: [];
+    in-out property <int> current-index: -1;
+    in-out property <int> size: list.length;
+    in-out property <int> song-id: -1;
+    in-out property <bool> has-played;
+    in-out property <int> song-duration;
+    in-out property <bool> process-reset;
+    in-out property <bool> process-stop;
+    in-out property <bool> process-state;
+
+    callback push(song: Song);
+    callback delete(index: int);
+    callback clear();
+    callback pre();
+    callback next();
+
+
+    public function set_song_process(flag: bool) {
+        if !flag {
+            self.process-stop = true;
+        } else {
+            self.process-reset = true;
+            self.process-stop = false;
+            self.process-state = flag;
+        }
+    }
+
+    public function set_has_played(is-playing: bool) {
+        self.has-played = is-playing;
+    }
+
+    public function delete_song(index: int) {
+        PlaySongsStore.delete(index);
+
+        if PlaySongsStore.current-index == -1 {
+            PlaySongsStore.song-id = -1;
+            PlaySongsStore.set_has_played(false);
+            PlaySongsStore.set_song_process(false);
+        } else {
+            PlaySongsStore.song-id = PlaySongsStore.list[PlaySongsStore.current-index].id;
+            PlaySongsStore.set_has_played(true);
+            PlaySongsStore.set_song_process(true);
+        }
+    }
+
+
+    public function pre_song() {
+        PlaySongsStore.pre();
+
+        if PlaySongsStore.current-index == -1 {
+            PlaySongsStore.song-id = -1;
+            PlaySongsStore.set_has_played(false);
+            PlaySongsStore.set_song_process(false);
+        } else {
+            PlaySongsStore.song-id = PlaySongsStore.list[PlaySongsStore.current-index].id;
+            PlaySongsStore.set_has_played(true);
+            PlaySongsStore.set_song_process(true);
+        }
+
+    }
+
+    public function next_song() {
+        PlaySongsStore.next();
+        
+        if PlaySongsStore.current-index == -1 {
+            PlaySongsStore.song-id = -1;
+            PlaySongsStore.set_has_played(false);
+            PlaySongsStore.set_song_process(false);
+        } else {
+            PlaySongsStore.song-id = PlaySongsStore.list[PlaySongsStore.current-index].id;
+            PlaySongsStore.set_has_played(true);
+            PlaySongsStore.set_song_process(true);
+        }
+
+    }
+
+    public function clear_songs() {
+        PlaySongsStore.clear();
+        PlaySongsStore.song-id = -1;
+        PlaySongsStore.set_has_played(false);
+        PlaySongsStore.set_song_process(false);
+    }
+    
+    public function push_song_and_id(song: Song, id: int) {
+        PlaySongsStore.song-id = id;
+        PlaySongsStore.push(song);
+        PlaySongsStore.set_has_played(true);
+        PlaySongsStore.set_song_process(true);
+    }
+}
+
+export global PlayListStore {
+    in-out property <bool> is-show;
+
+    public function close() {
+        self.is-show = false;
+    }
+}
+
+export global WindowStore {
+    in-out property <length> app-width: 1150px;
+    in-out property <length> app-height: 720px;
+    callback min();
+    callback max();
+    callback close();
+    callback reset();
+}
+
+export global VinylStore {
+    in-out property <length> position-y: 2000px;
+
+    public function toggle() {
+        if self.position-y > 0 {
+            self.position-y = 0;
+        } else {
+            self.position-y = 2000px;
+        }
+    }
+}

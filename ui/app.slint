@@ -1,0 +1,64 @@
+import { QTouchArea } from "components/qtoucharea.slint";
+import { Container } from "app/container.slint";
+import { Player } from "app/player.slint";
+import { PlayList } from "app/play-list.slint";
+import { PlayListStore, WindowStore } from "app/global.slint";
+import { Vinyl } from "app/vinyl.slint";
+export { PlaySongsStore, Song, WindowStore, HistoryStore, Page } from "app/global.slint";
+
+export component App inherits Window {
+    callback drag_window(x: length, y: length);
+    
+    width: WindowStore.app-width;
+    height: WindowStore.app-height;
+
+    background: transparent;
+    no-frame: true;
+    default-font-size: 14px;
+
+    fs := FocusScope {}
+
+    QTouchArea {
+        // mouse-cursor: pointer;
+
+        moved => {
+            root.drag_window(self.mouse-x - self.pressed-x, self.mouse-y - self.pressed-y);
+        }
+
+        clicked => {
+            fs.focus();
+            PlayListStore.close();
+        }
+    }
+
+    window := Rectangle {
+        x: 0;
+        y: -1px;
+        width: root.width - 6px;
+        height: root.height - 30px;
+        background: #fff;
+        border-radius: 10px;
+        border-color: gray;
+        border-width: 1px;
+
+        VerticalLayout {
+
+            container := Container {
+                vertical-stretch: 1;
+            }
+
+            player := Player {
+                height: 75px;
+            }
+        }
+    }
+
+    Vinyl {
+        height: window.height - player.height;
+    }
+
+    if PlayListStore.is-show: PlayList {
+        x: window.width - self.width;
+        y: window.height - self.height - player.height - 50px;
+    }
+}

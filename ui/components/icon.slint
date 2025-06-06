@@ -1,0 +1,32 @@
+import { QTouchArea } from "qtoucharea.slint";
+export component Icon inherits Rectangle {
+    in property <image> source;
+    callback clicked();
+    in property <brush> colorize;
+
+    width: 14px;
+
+    HorizontalLayout {
+        alignment: center;
+
+        VerticalLayout {
+            alignment: center;
+
+            Image {
+                width: root.width;
+                height: self.width;
+                source: root.source;
+                colorize: root.colorize;
+            }
+        }
+    }
+
+    QTouchArea {
+        mouse-cursor: pointer;
+
+        clicked => {
+            root.clicked();
+        }
+    }
+
+}

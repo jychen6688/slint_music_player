@@ -1,0 +1,11 @@
+[package]
+name = "music-player"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rodio = "0.20.1"
+slint = "1.9.1"
+
+[build-dependencies]
+slint-build = "1.9.1"

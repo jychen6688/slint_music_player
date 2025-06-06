@@ -1,0 +1,76 @@
+import { Icon } from "../components/icon.slint";
+import { QInput } from "../components/input.slint";
+import { PageType, WindowStore, HistoryStore } from "global.slint";
+export component ToolBar inherits Rectangle {
+    // background: black;
+    border-top-right-radius: 10px;
+
+    HorizontalLayout {
+        alignment: space-between;
+        padding-left: 30px;
+        padding-right: 30px;
+
+        left-box := Rectangle {
+            HorizontalLayout {
+                alignment: start;
+                spacing: 20px;
+                
+                Icon {
+                    source: @image-url("../../assets/left.svg");
+
+                    clicked => {
+                        HistoryStore.go_back();
+                    }
+                }
+                Icon {
+                    source: @image-url("../../assets/refresh.svg");
+                }
+
+                QInput {
+                    placeholder: "请输入歌手";
+                }
+            }
+        }
+
+        right-box := Rectangle {
+            HorizontalLayout {
+                alignment: space-between;
+                spacing: 20px;
+
+                Icon {
+                    source: @image-url("../../assets/clothes.svg");
+
+                    clicked => {
+                        HistoryStore.go_to(PageType.theme);
+                    }
+                }
+                Icon {
+                    source: @image-url("../../assets/min.svg");
+                    clicked => {
+                        WindowStore.min();
+                    }
+                }
+                Icon {
+                    property <bool> has-max;
+                    source: self.has-max ? @image-url("../../assets/reset-max.svg"): @image-url("../../assets/max.svg");
+                    clicked => {
+                        if !self.has-max {
+                            self.has-max = true;
+                            WindowStore.max();
+                        } else {
+                            self.has-max = false;
+                            WindowStore.reset();
+                        }
+                        
+                    }
+                }
+                Icon {
+                    source: @image-url("../../assets/close.svg");
+                    clicked => {
+                        WindowStore.close();
+                    }
+                }
+            }
+        }
+    }
+}

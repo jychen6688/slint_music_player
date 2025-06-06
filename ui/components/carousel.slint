@@ -1,0 +1,84 @@
+import { QTouchArea } from "qtoucharea.slint";
+export component Carousel inherits Rectangle {
+    in-out property <int> current-index;
+    in property <int> count: 7;
+    in property <int> size: 4;
+    in property <length> delta: root.width;
+    in property <length> spacing: 20px;
+
+    preferred-width: 500px;
+    preferred-height: 200px;
+    clip: true;
+
+
+    HorizontalLayout {
+        x: -root.current-index * root.delta;
+        spacing: root.spacing;
+        animate x {
+             duration: 50ms;
+        }
+        @children
+    }
+
+    
+    left-btn := Rectangle {
+        x: 10px;
+        z: 100;
+        width: 40px;
+        height: 40px;
+        background: gray;
+        opacity: 0.5;
+        border-radius: self.width / 2;
+        clip: true;
+
+        Image {
+            width: parent.width / 2;
+            source: @image-url("../../assets/left-btn.svg");
+            colorize: #fff;
+        }
+
+        QTouchArea {
+            x: 10px;
+            width: 100px;
+            height: 100px;
+            mouse-cursor: pointer;
+
+            clicked => {
+                if root.current-index > 0 {
+                    root.current-index -= 1;
+                }
+            }
+        }
+    }
+
+    right-btn := Rectangle {
+        x: root.width - right-btn.width - 10px;
+        z: 100;
+        width: 40px;
+        height: 40px;
+        background: gray;
+        opacity: 0.5;
+        border-radius: self.width / 2;
+        clip: true;
+
+        Image {
+            width: parent.width / 2;
+            source: @image-url("../../assets/right-btn.svg");
+            colorize: #fff;
+        }
+
+        QTouchArea {
+            x: 10px;
+            width: 100px;
+            height: 100px;
+            mouse-cursor: pointer;
+
+            clicked => {
+                if root.current-index < root.count - 4 {
+                    root.current-index += 1;
+                }
+            }
+        }
+    }
+
+}

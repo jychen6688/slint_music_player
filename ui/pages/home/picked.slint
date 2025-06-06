@@ -1,0 +1,344 @@
+import { Carousel } from "../../components/carousel.slint";
+import { QTouchArea } from "../../components/qtoucharea.slint";
+import { HistoryStore, PageType } from "../../app/global.slint";
+import { ScrollView, VerticalBox } from "std-widgets.slint";
+import { QImage } from "../../components/qimage.slint";
+export component Picked inherits Rectangle {
+
+    ScrollView {
+        VerticalLayout {
+            padding-top: 20px;
+            spacing: 30px;
+
+            carousel := Carousel {
+                property <length> item-width: (root.width - carousel.spacing * 3) / 4;
+                property <[image]> singers: [
+                    @image-url("../../../assets/katong1.png"),
+                    @image-url("../../../assets/katong2.png"),
+                    @image-url("../../../assets/katong3.png"),
+                    @image-url("../../../assets/katong4.png"),
+                    @image-url("../../../assets/katong5.png"),
+                    @image-url("../../../assets/katong6.png"),
+                    @image-url("../../../assets/katong7.png"),
+                ];
+                height: self.item-width / 3 * 4;
+                delta: self.item-width + self.spacing;
+                spacing: 20px;
+
+                for item in carousel.singers: Rectangle {
+                    width: carousel.item-width;
+                    border-radius: 10px;
+                    clip: true;
+
+                    Image {
+                        width: parent.width;
+                        height: carousel.height;
+                        source: item;
+                    }
+
+                    QTouchArea {
+                        // mouse-cursor: pointer;
+
+                        clicked => {
+                            HistoryStore.go_to(PageType.singer);
+                        }
+                    }
+                }
+            }
+
+            Rectangle {
+
+                HorizontalLayout {
+                    spacing: 20px;
+
+                    for item in 5: Rectangle {
+                        height: self.width;
+                        border-radius: 10px;
+                        background: #333;
+                        clip: true;
+
+                        Image {
+                            width: parent.width;
+                            height: self.width;
+                            source: @image-url("../../../assets/nvgeshou.png");
+                        }
+
+                        QTouchArea {
+                            mouse-cursor: pointer;
+
+                            clicked => {
+                                HistoryStore.go_to(PageType.singer);
+                            }
+                        }
+                    }
+                }
+            }
+
+            Rectangle {
+                VerticalLayout {
+                    spacing: 20px;
+
+                    Text {
+                        text: "怀旧金曲";
+                        font-size: 20px;
+                    }
+
+                    Rectangle {
+
+                        HorizontalLayout {
+                            spacing: 30px;
+
+                            Rectangle {
+                                VerticalLayout {
+                                    spacing: 20px;
+
+                                    for item in 5: HorizontalLayout {
+                                        spacing: 10px;
+
+                                        QImage {
+                                            width: 50px;
+                                            height: 50px;
+                                            border-radius: 5px;
+                                            source: @image-url("../../../assets/katong11.png");
+                                        }
+
+                                        Rectangle {
+                                            VerticalLayout {
+                                                alignment: space-between;
+
+                                                Text {
+                                                    text: "听妈妈的话";
+                                                    font-size: 16px;
+                                                }
+
+                                                Text {
+                                                    text: "周杰伦";
+                                                    color: gray;
+                                                }
+                                            }
+                                        }
+                                    } 
+                                }
+                            }
+
+                            Rectangle {
+                                VerticalLayout {
+                                    spacing: 20px;
+
+                                    for item in 5: HorizontalLayout {
+                                        spacing: 10px;
+
+                                        QImage {
+                                            width: 50px;
+                                            height: 50px;
+                                            border-radius: 5px;
+                                            source: @image-url("../../../assets/katong66.png");
+                                        }
+
+                                        Rectangle {
+                                            VerticalLayout {
+                                                alignment: space-between;
+
+                                                Text {
+                                                    text: "十年";
+                                                    font-size: 16px;
+                                                }
+
+                                                Text {
+                                                    text: "陈奕迅";
+                                                    color: gray;
+                                                }
+                                            }
+                                        }
+                                    } 
+                                }
+                            }
+
+                            Rectangle {
+                                VerticalLayout {
+                                    spacing: 20px;
+
+                                    for item in 5: HorizontalLayout {
+                                        spacing: 10px;
+
+                                        QImage {
+                                            width: 50px;
+                                            height: 50px;
+                                            border-radius: 5px;
+                                            source: @image-url("../../../assets/katong77.png");
+                                        }
+
+                                        Rectangle {
+                                            VerticalLayout {
+                                                alignment: space-between;
+
+                                                Text {
+                                                    text: "红颜";
+                                                    font-size: 16px;
+                                                }
+
+                                                Text {
+                                                    text: "胡彦斌";
+                                                    color: gray;
+                                                }
+                                            }
+                                        }
+                                    } 
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            Rectangle {
+
+                HorizontalLayout {
+                    spacing: 20px;
+
+                    for item in 5: Rectangle {
+                        height: self.width;
+                        border-radius: 10px;
+                        background: #333;
+                        clip: true;
+
+                        Image {
+                            width: parent.width;
+                            height: self.width;
+                            source: @image-url("../../../assets/zhubo.png");
+                        }
+
+                        QTouchArea {
+                            mouse-cursor: pointer;
+
+                            clicked => {
+                                HistoryStore.go_to(PageType.singer);
+                            }
+                        }
+                    }
+                }
+            }
+
+            Rectangle {
+                VerticalLayout {
+                    spacing: 20px;
+
+                    Text {
+                        text: "怀旧金曲";
+                        font-size: 20px;
+                    }
+
+                    Rectangle {
+
+                        HorizontalLayout {
+                            spacing: 30px;
+
+                            Rectangle {
+                                VerticalLayout {
+                                    spacing: 20px;
+
+                                    for item in 5: HorizontalLayout {
+                                        spacing: 10px;
+
+                                        QImage {
+                                            width: 50px;
+                                            height: 50px;
+                                            border-radius: 5px;
+                                            source: @image-url("../../../assets/katong88.png");
+                                        }
+
+                                        Rectangle {
+                                            VerticalLayout {
+                                                alignment: space-between;
+
+                                                Text {
+                                                    text: "真心英雄";
+                                                    font-size: 16px;
+                                                }
+
+                                                Text {
+                                                    text: "成龙";
+                                                    color: gray;
+                                                }
+                                            }
+                                        }
+                                    } 
+                                }
+                            }
+
+                            Rectangle {
+                                VerticalLayout {
+                                    spacing: 20px;
+
+                                    for item in 5: HorizontalLayout {
+                                        spacing: 10px;
+
+                                        QImage {
+                                            width: 50px;
+                                            height: 50px;
+                                            border-radius: 5px;
+                                            source: @image-url("../../../assets/katong22.png");
+                                        }
+
+                                        Rectangle {
+                                            VerticalLayout {
+                                                alignment: space-between;
+
+                                                Text {
+                                                    text: "龙的传人";
+                                                    font-size: 16px;
+                                                }
+
+                                                Text {
+                                                    text: "王力宏";
+                                                    color: gray;
+                                                }
+                                            }
+                                        }
+                                    } 
+                                }
+                            }
+
+                            Rectangle {
+                                VerticalLayout {
+                                    spacing: 20px;
+
+                                    for item in 5: HorizontalLayout {
+                                        spacing: 10px;
+
+                                        QImage {
+                                            width: 50px;
+                                            height: 50px;
+                                            border-radius: 5px;
+                                            source: @image-url("../../../assets/katong88.png");
+                                        }
+
+                                        Rectangle {
+                                            VerticalLayout {
+                                                alignment: space-between;
+
+                                                Text {
+                                                    text: "男儿当自强";
+                                                    font-size: 16px;
+                                                }
+
+                                                Text {
+                                                    text: "成龙";
+                                                    color: gray;
+                                                }
+                                            }
+                                        }
+                                    } 
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        } 
+    }
+    
+    
+    
+}

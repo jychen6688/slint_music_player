@@ -1,0 +1,117 @@
+import { ScrollView } from "std-widgets.slint";
+import { QTouchArea } from "../../components/qtoucharea.slint";
+import { HistoryStore, PageType } from "../../app/global.slint";
+export component Singers inherits Rectangle {
+    property <[[ {name: string, pic: image} ]]> singers: [
+        [
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+        ],
+        [
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+        ],
+        [
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+        ],
+        [
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+        ],
+        [
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+            {name: "周杰伦", pic: @image-url("../../../assets/katong8.png")},
+        ],
+    ];
+
+    property <int> box-num: singers[0].length;
+    property <length> box-spacing: 30px;
+    property <length> box-width: (root.width - (root.box-num - 1) * root.box-spacing) / self.box-num;
+
+    ScrollView {
+
+        VerticalLayout {
+            padding-top: 20px;
+            spacing: root.box-spacing;
+
+            menu := Rectangle {
+                height: 20px;
+
+                HorizontalLayout {
+                    alignment: start;
+                    spacing: 20px;
+
+                    for item in ["全部", "A", "B", "C", "D", "E", "F"]: Text {
+                        text: item;
+                        font-size: 14px;
+                        vertical-alignment: center;
+
+                        QTouchArea {
+                            mouse-cursor: pointer;
+                        }
+                    }
+                }
+            }
+
+            VerticalLayout {
+                alignment: start;
+                spacing: root.box-spacing;
+
+                for row in root.singers: HorizontalLayout {
+                    spacing: root.box-spacing;
+
+                    for singer in row: Rectangle {
+                        width: root.box-width;
+
+                        VerticalLayout {
+                            alignment: start;
+                            spacing: 20px;
+
+                            Rectangle {
+                                width: root.box-width;
+                                height: self.width;
+                                border-radius: self.width / 2;
+                                clip: true;
+
+                                Image {
+                                    width: parent.width;
+                                    height: self.width;
+                                    source: singer.pic;
+                                }
+                            }
+
+                            Text {
+                                text: singer.name;
+                                horizontal-alignment: center;
+                            }
+                        }
+
+                        QTouchArea {
+                            mouse-cursor: pointer;
+
+                            clicked => {
+                                HistoryStore.go_to_with_data(PageType.singer, "zhoujielun");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

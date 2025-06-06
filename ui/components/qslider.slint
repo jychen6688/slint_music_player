@@ -1,0 +1,97 @@
+import { QTouchArea } from "qtoucharea.slint";
+import { PlaySongsStore } from "../app/global.slint";
+export component QSlider inherits Rectangle {
+    in-out property <int> value;
+    in-out property <int> min: 0;
+    in-out property <int> max: 100;
+    in property <brush> progress-background: red;
+    callback moved(value: int);
+    callback clicked(value: int);
+    function get_value() -> int{
+        root.max - root.min + (root.max - root.min) * progress.width / track.width
+    }
+
+    width: 400px;
+    height: 20px;
+
+
+    timer := Timer {
+            interval: 1s;
+            running: PlaySongsStore.process-state ? true : false;
+            triggered() => {
+                if PlaySongsStore.process-reset {
+                    progress.width = 0;
+                    PlaySongsStore.process-reset = false;
+                }
+                if PlaySongsStore.process-stop {
+                    progress.width = 0;
+                    PlaySongsStore.process-state = false;
+                }
+                if progress.width >=  root.width {
+                    progress.width = 0;
+                    PlaySongsStore.process-state = false;
+                } else {
+                    progress.width += root.width / PlaySongsStore.song-duration;
+                }
+            }
+    }
+
+    track := Rectangle {
+        height: root.height / 2;
+        background: #eee;
+        border-radius: self.height / 2;
+
+        progress := Rectangle {
+            x: 0;
+            width: root.width * (root.value - root.min) / (root.max - root.min);
+            background: root.progress-background;
+            border-radius: self.height / 2;
+        }
+
+        states [
+            progress0 when progress.width <= 0: {
+                btn.x: 0;
+            }
+
+            progress100 when progress.width == root.width: {
+                btn.x: progress.width - btn.width;
+            }
+        ]
+
+        btn := Rectangle{
+            x: progress.width - self.width / 2;
+            height: root.height;
+            width: self.height;
+            background: root.progress-background;
+            border-radius: self.width / 2;
+        }
+
+        QTouchArea {
+            mouse-cursor: pointer;
+
+            moved => {
+                if self.mouse-x < 0 {
+                    progress.width = 0;
+                } else if self.mouse-x > root.width {
+                    progress.width = root.width;
+                } else {
+                    progress.width = self.mouse-x;
+                }
+
+                root.moved(get_value());
+            }
+
+            clicked => {
+                
+                if self.mouse-x < 0 {
+                    progress.width = 0;
+                } else if self.mouse-x > root.width {
+                    progress.width = root.width;
+                } else {
+                    progress.width = self.mouse-x;
+                }
+                root.clicked(get_value());
+            }
+        }
+    }
+}

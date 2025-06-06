@@ -1,0 +1,172 @@
+import { ScrollView } from "std-widgets.slint";
+import { QTouchArea } from "../../components/qtoucharea.slint";
+import { Icon } from "../../components/icon.slint";
+import { QImage } from "../../components/qimage.slint";
+import { SingerTabs } from "singer-tabs.slint";
+import { SingerSongsStore, PlaySongsStore } from "../../app/global.slint";
+export component Singer inherits Rectangle {
+    // background: #eee;
+
+    ScrollView {
+
+        VerticalLayout {
+            spacing: 30px;
+
+            person := Rectangle {
+                height: 160px;
+
+                HorizontalLayout {
+                    spacing: 30px;
+
+                    avatar := Rectangle {
+                        height: person.height;
+                        width: self.height;
+                        border-radius: self.width / 2;
+                        clip: true;
+
+                        Image {
+                            width: parent.width;
+                            height: parent.height;
+                            source: @image-url("../../../assets/katong8.png");
+                        }
+                    }
+
+                    info := Rectangle {
+                        VerticalLayout {
+                            alignment: space-between;
+
+                            info-name := VerticalLayout {
+                                spacing: 10px;
+                                Text {
+                                    text: "周杰伦";
+                                    font-size: 30px;
+                                }
+
+                                Text {
+                                    text: "最强制作人";
+                                }
+
+                                Text {
+                                    text: "共4334万粉丝";
+                                    color: gray;
+                                }
+                            }
+
+                            btn := Rectangle {
+                                width: 90px;
+                                height: 34px;
+                                border-radius: 5px;
+                                background: red;
+
+                                Text {
+                                    text: "关注";
+                                    color: #fff;
+                                }
+
+                                QTouchArea {
+                                    mouse-cursor: pointer;
+                                    clicked => {
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            tabs := SingerTabs {}
+
+            songs := Rectangle {
+
+                layout := VerticalLayout {
+
+                    for item[index] in SingerSongsStore.list: song := Rectangle {
+                        height: 70px;
+                        background: PlaySongsStore.song-id == item.id? #eee : #fff;
+                        border-radius: 5px;
+
+                        HorizontalLayout {
+                            alignment: space-between;
+                            padding-left: 15px;
+                            padding-right: 15px;
+                            padding-top: 5px;
+                            padding-bottom: 5px;
+
+                            left-box := Rectangle {
+
+                                HorizontalLayout {
+                                    alignment: start;
+                                    spacing: 15px;
+
+                                    song-icon := Icon {
+                                        source: @image-url("../../../assets/play.svg");
+
+                                        clicked => {
+                                            PlaySongsStore.set_has_played(!PlaySongsStore.has-played);
+                                        }
+                                    }
+
+                                    Rectangle {
+                                        QImage {
+                                            width: 40px;
+                                            height: 40px;
+                                            border-radius: 5px;
+                                            source: @image-url("../../../assets/katong8.png");
+                                        }
+                                    }
+
+                                    Text {
+                                        text: item.singer + " - " + item.song;
+                                        vertical-alignment: center;
+                                    }
+                                }
+                            }
+
+                            right-box := Rectangle {
+                                HorizontalLayout {
+                                    spacing: 200px;
+
+                                    Text {
+                                        text: "七里香";
+                                        vertical-alignment: center;
+                                    }
+
+                                    Rectangle {
+
+                                        HorizontalLayout {
+                                            spacing: 20px;
+                                            Icon {
+                                                source: @image-url("../../../assets/like.svg");
+                                            }
+                                            Text {
+                                                text: "04:30";
+                                                vertical-alignment: center;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
+                        states [
+                            active-playing when PlaySongsStore.song-id == item.id && PlaySongsStore.has-played: {
+                                song-icon.source: @image-url("../../../assets/pause.svg");
+                            }
+                        ]
+
+                        QTouchArea {
+                            mouse-cursor: pointer;
+
+                            clicked => {
+                                PlaySongsStore.push_song_and_id(item, item.id);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}
