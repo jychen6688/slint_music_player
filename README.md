@@ -162,7 +162,7 @@ cargo build --release
 - 问题反馈: [GitHub Issues](https://github.com/jychen6688/slint_music_player/issues)
 
 ## 致谢
-
+- [![Powered by DartNode](https://dartnode.com/branding/DN-Open-Source-sm.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source") - 提供VPS
 - [Slint](https://slint-ui.com/) - 优秀的 Rust GUI 框架
 - [rodio](https://github.com/RustAudio/rodio) - 强大的 Rust 音频库
 - 所有为开源社区做出贡献的开发者们
